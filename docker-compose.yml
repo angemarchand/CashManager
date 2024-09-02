@@ -1,0 +1,28 @@
+services:
+  server:
+    build: ./server
+    ports:
+      - "8080:8080"
+    volumes:
+      - shared:/shared
+    depends_on:
+      - db
+      - client
+    env_file:
+      - .env
+
+  client:
+    build: ./client
+    volumes:
+      - shared:/shared
+
+  db:
+    image: postgres:latest
+    env_file:
+      - .env
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  shared:
+  db-data:
