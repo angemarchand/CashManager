@@ -7,14 +7,8 @@ services:
       - shared:/shared
     depends_on:
       - db
-      - client
     env_file:
       - .env
-
-  client:
-    build: ./client
-    volumes:
-      - shared:/shared
 
   db:
     image: postgres:latest

@@ -1,65 +1,64 @@
 package com.example.server.entity;
 
+import com.example.server.enums.UserRole;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-
-
-@Entity
-@Table(name = "users")
+@Getter
+@Setter
+@ToString
+@Entity(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
+
+    @Column(name = "firstname", nullable = true )
+    private String firstname;
+
+    @Column(name = "lastname", nullable = false)
+    private String lastname;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "password", nullable = false)
+    @Setter(AccessLevel.NONE)
     private String password;
-    
-    public enum Role {
-        USER,
-        ADMIN
-    }
-    
-    private Role role;
 
-    // Getters et setters
+    @Enumerated
+    @Column(name = "role", nullable = false)
+    private UserRole role;
 
-    public Long getId(){
-        return id;
-    }
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Account> accounts = new LinkedHashSet<>();
 
-    public void setId (Long id){
-        this.id = id;
-    }
+    protected User() {}
 
-    public String getUsername(){
-        return username;
-    }
-
-    public void setUsername(String username){
-        this.username = username;
-    }
-
-    public String getPassword(){
-        return password;
-    }
-
-    public void setPassword (String password){
-        this.password = password;
-    }
-
-    public Role getRole(){
-        return role;
-    }
-
-    public void setRole(Role role){
+    public User(String firstname, String lastname, String email, String password, UserRole role) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        setPassword(password);
         this.role = role;
     }
-}
 
+    public void setPassword(String password) {
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt(12));
+    }
+
+    public boolean checkPassword(String password) {
+        return BCrypt.checkpw(password, this.password);
+    }
+}
 
 
 

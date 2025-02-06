@@ -29,7 +29,9 @@ public class UserService {
     public User updatUser(Long id, User userDetails){
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {
-            user.setUsername(userDetails.getUsername());
+            user.setFirstname(userDetails.getFirstname());
+            user.setLastname(userDetails.getLastname());
+            user.setEmail(userDetails.getEmail());
             user.setPassword(userDetails.getPassword());
             user.setRole(userDetails.getRole());
             return userRepository.save(user);
