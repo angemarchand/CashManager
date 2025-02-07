@@ -28,11 +28,11 @@ const vuetify = createVuetify({
           background: '#F5F5F5',
           surface: '#FFFFFF',
           buttonHover: '#FFF5B2',
-          title: '#F3C969'
-        }
-      }
-    }
-  }
+          title: '#F3C969',
+        },
+      },
+    },
+  },
 })
 const app = createApp(App)
 //mvn clean install
