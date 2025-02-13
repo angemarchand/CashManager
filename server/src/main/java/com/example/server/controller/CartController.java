@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+import org.hibernate.Hibernate;
 
 import java.util.Optional;
 
@@ -67,6 +68,9 @@ public class CartController {
         CartItem savedCartItem = cartItemRepository.save(cartItem);
 
         cartRepository.saveAndFlush(cart);
+
+        // Forcer l'initialisation du champ cart avant la sérialisation
+        Hibernate.initialize(savedCartItem.getCart());
 
         return ResponseEntity.ok(savedCartItem);
     }

@@ -2,7 +2,8 @@ package com.example.server.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.example.server.util.CartIdSerializer;
 
 
 @Getter
@@ -19,7 +20,7 @@ public class CartItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
-    @JsonBackReference
+    @JsonSerialize(using = CartIdSerializer.class)
     private Cart cart;
 
     @ManyToOne(fetch = FetchType.LAZY)

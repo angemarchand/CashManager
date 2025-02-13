@@ -1,6 +1,8 @@
 package com.example.server.entity;
 
 import com.example.server.enums.PaymentMethodType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +22,7 @@ public class PaymentMethod {
     @ToString.Exclude
     @ManyToOne(optional = false)
     @JoinColumn(name = "account_id", nullable = false)
+    @JsonBackReference
     private Account account;
 
     @Enumerated

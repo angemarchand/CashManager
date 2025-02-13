@@ -1,6 +1,7 @@
 package com.example.server.entity;
 
 import com.example.server.enums.AccountState;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,6 +38,7 @@ public class Account {
 
     @OneToMany(mappedBy = "account", orphanRemoval = true)
     @ToString.Exclude
+    @JsonManagedReference
     private Set<PaymentMethod> paymentMethods = new LinkedHashSet<>();
 
     public Account(User user) {

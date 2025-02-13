@@ -1,5 +1,5 @@
 import productService from "@/services/productService.ts";
-import type { Product } from "@/types/product";
+import type { Product } from "@/types/product.ts";
 import {ref} from "vue";
 
 

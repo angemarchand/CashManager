@@ -10,8 +10,8 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn class="bg-accent" rounded >
-        Ajouter au panier
+      <v-btn class="bg-accent" rounded @click="handleAddToCart">
+        Add to cart
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -19,12 +19,28 @@
 
 <script setup lang="ts">
 import type { Product } from '@/types/product';
+import {useCartStore} from "@/stores/cart.ts";
+import { useRouter } from 'vue-router';
 
 const props = defineProps<{ product: Product }>()
+const cartStore = useCartStore()
+const router = useRouter()
 
 
 const formatCurrency = (value: number): string => {
   return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value)
 }
+
+
+
+const handleAddToCart = async () => {
+  try {
+    await cartStore.addProduct(props.product, 1);
+    console.log("Product added to cart:", props.product);
+    await router.push({path: '/cart'})
+  } catch (error) {
+    console.error("Error adding product to cart:", error);
+  }
+};
 
 </script>

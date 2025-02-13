@@ -2,6 +2,7 @@
   <div class="my-10">
     <h1 class="text-center">Welcome to Easy Shop!</h1>
   </div>
+  <div>bonjour à tous </div>
   <v-container fluid>
     <v-row dense>
       <v-col
@@ -24,7 +25,7 @@
 </template>
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue'
-import {useProduct} from "@/services/useProduct.ts";
+import {useProduct} from "@/composables/useProduct.ts";
 import ProductCard from "@/components/ProductCard.vue";
 
 const { products, error, fetchProducts } = useProduct()

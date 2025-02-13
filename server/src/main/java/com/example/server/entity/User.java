@@ -2,10 +2,7 @@ package com.example.server.entity;
 
 import com.example.server.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.LinkedHashSet;
@@ -14,6 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @Entity(name = "users")
 public class User {
     @Id
@@ -41,7 +39,7 @@ public class User {
     @ToString.Exclude
     private Set<Account> accounts = new LinkedHashSet<>();
 
-    protected User() {}
+
 
     public User(String firstname, String lastname, String email, String password, UserRole role) {
         this.firstname = firstname;
@@ -50,6 +48,8 @@ public class User {
         setPassword(password);
         this.role = role;
     }
+
+
 
     public void setPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt(12));
